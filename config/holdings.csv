@@ -1,0 +1,5 @@
+ticker,shares,cost_basis,purchase_date
+AAPL,10,150.00,2023-01-15
+MSFT,8,280.00,2023-03-10
+VTI,15,210.00,2022-11-01
+BND,20,72.00,2023-06-01

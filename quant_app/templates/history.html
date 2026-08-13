@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}History — Portfolio Quant App{% endblock %}
+{% block content %}
+  <h1>Report history</h1>
+  <p class="subtitle">Past daily reports written to the reports/ directory</p>
+
+  {% if reports %}
+    <ul class="report-list">
+      {% for filename in reports %}
+        <li><a href="{{ url_for('history_detail', filename=filename) }}">{{ filename }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="empty-state">No reports yet — run <code>python -m quant_app.cli</code> to generate one.</div>
+  {% endif %}
+{% endblock %}

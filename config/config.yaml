@@ -1,0 +1,14 @@
+# Target portfolio allocation (must sum to 1.0). Edit to match your goals.
+target_allocations:
+  AAPL: 0.20
+  MSFT: 0.20
+  VTI: 0.40
+  BND: 0.20
+
+# Thresholds that drive the daily decision engine (quant_app/rules.py).
+thresholds:
+  drift_pct: 5.0          # rebalance if a holding's weight is off target by more than this (pp)
+  rsi_overbought: 70      # RSI14 at/above this -> lean TRIM
+  rsi_oversold: 30        # RSI14 at/below this -> lean BUY
+  drawdown_pct: 15.0      # flag for stop-loss review if down this % from 52-week high
+  take_profit_pct: 20.0   # unrealized gain % (combined with overbought RSI) -> take-profit flag

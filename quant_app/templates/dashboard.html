@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Portfolio Quant App{% endblock %}
+{% block content %}
+  <h1>Portfolio Dashboard</h1>
+  <p class="subtitle">{{ result.report_date.isoformat() }} · prices as of last close</p>
+
+  <div class="stat-tiles">
+    <div class="stat-tile">
+      <div class="label">Total value</div>
+      <div class="value">${{ "%.2f"|format(result.summary.total_value) }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Unrealized P/L</div>
+      <div class="value {{ 'positive' if result.summary.total_unrealized_pl >= 0 else 'negative' }}">
+        {{ "%+.2f"|format(result.summary.total_unrealized_pl) }} ({{ "%+.1f"|format(result.summary.total_unrealized_pl_pct) }}%)
+      </div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Positions</div>
+      <div class="value">{{ result.positions|length }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Actions needed</div>
+      <div class="value">{{ actionable_count }}</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Ticker</th>
+        <th>Action</th>
+        <th class="numeric">Price</th>
+        <th class="numeric">Weight (target)</th>
+        <th class="numeric">P/L %</th>
+        <th class="numeric">RSI14</th>
+        <th>Reasons</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in sorted_positions %}
+      {% set d = result.decisions[p.ticker] %}
+      {% set ind = result.indicators[p.ticker] %}
+      <tr>
+        <td><strong>{{ p.ticker }}</strong></td>
+        <td><span class="badge {{ badge_class[d.action] }}">{{ d.action.value }}</span></td>
+        <td class="numeric">${{ "%.2f"|format(p.price) }}</td>
+        <td class="numeric">{{ "%.1f"|format(p.current_weight * 100) }}% ({{ "%.1f"|format(p.target_weight * 100) }}%)</td>
+        <td class="numeric">{{ "%+.1f"|format(p.unrealized_pl_pct) }}%</td>
+        <td class="numeric">{{ "%.0f"|format(ind.rsi14) if ind.rsi14 is not none else "n/a" }}</td>
+        <td class="reasons">{{ d.reasons|join("; ") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

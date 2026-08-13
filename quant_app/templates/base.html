@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Portfolio Quant App{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <span class="brand">Portfolio Quant App</span>
+    <a href="{{ url_for('dashboard') }}" class="{{ 'active' if active == 'dashboard' else '' }}">Dashboard</a>
+    <a href="{{ url_for('history') }}" class="{{ 'active' if active == 'history' else '' }}">History</a>
+  </nav>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
