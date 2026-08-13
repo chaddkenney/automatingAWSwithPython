@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ filename }} — Portfolio Quant App{% endblock %}
+{% block content %}
+  <a class="back-link" href="{{ url_for('history') }}">&larr; Back to history</a>
+  <h1>{{ filename }}</h1>
+  <pre class="report-raw">{{ content }}</pre>
+{% endblock %}

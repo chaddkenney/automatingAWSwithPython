@@ -35,6 +35,19 @@ day so re-running doesn't re-hit Yahoo Finance.
 Optional flags: `--holdings`, `--config`, `--reports-dir` to point at
 different files.
 
+## Web dashboard
+
+```bash
+python -m quant_app.webapp
+```
+
+Opens a local server at http://127.0.0.1:5000 — a dashboard view of the same
+analysis (stat tiles + a status-badged holdings table) plus a `/history` page
+that lists and displays past `reports/report_*.md` files. It's local-only
+(binds to 127.0.0.1); recomputes on every page load using the same daily
+price cache as the CLI. Optional flags: `--holdings`, `--config`,
+`--reports-dir`, `--port`.
+
 ## Run it daily
 
 Add a cron entry to run after US market close (e.g. 5pm ET / 21:00 UTC on

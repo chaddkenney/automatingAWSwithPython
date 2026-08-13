@@ -12,7 +12,7 @@ from quant_app.indicators import Indicators
 from quant_app.rules import Action, Decision
 
 # Lower number = higher priority in the report ordering.
-_ACTION_PRIORITY = {
+ACTION_PRIORITY = {
     Action.SELL: 0,
     Action.REBALANCE_TRIM: 1,
     Action.REBALANCE_BUY: 2,
@@ -22,11 +22,11 @@ _ACTION_PRIORITY = {
 }
 
 
-def _sorted_rows(
+def sorted_by_priority(
     positions: list[PositionAnalysis], decisions: dict[str, Decision]
 ) -> list[PositionAnalysis]:
     return sorted(
-        positions, key=lambda p: _ACTION_PRIORITY[decisions[p.ticker].action]
+        positions, key=lambda p: ACTION_PRIORITY[decisions[p.ticker].action]
     )
 
 
@@ -52,7 +52,7 @@ def render_markdown(
         "|---|---|---|---|---|---|---|",
     ]
 
-    for p in _sorted_rows(positions, decisions):
+    for p in sorted_by_priority(positions, decisions):
         ind = indicators[p.ticker]
         d = decisions[p.ticker]
         rsi_str = f"{ind.rsi14:.0f}" if ind.rsi14 is not None else "n/a"
@@ -82,7 +82,7 @@ def render_console(
     for column in ("Ticker", "Action", "Price", "Weight (tgt)", "P/L %", "RSI14", "Reasons"):
         table.add_column(column)
 
-    for p in _sorted_rows(positions, decisions):
+    for p in sorted_by_priority(positions, decisions):
         ind = indicators[p.ticker]
         d = decisions[p.ticker]
         rsi_str = f"{ind.rsi14:.0f}" if ind.rsi14 is not None else "n/a"
